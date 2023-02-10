@@ -1,0 +1,78 @@
+<html>
+  <head>
+    <style>
+      table {
+        width: 100%;
+      }
+      th, td {
+        text-align: left;
+        padding: 8px;
+      }
+      th {
+        background-color: #dddddd;
+      }
+      .locked {
+        background-color: #cccccc;
+      }
+      h1 {
+        font-size: 16pt;
+        font-weight: bold;
+      }
+    </style>
+    <script>
+      function toggleLock(e) {
+        var target = e.target;
+        target.parentNode.parentNode.classList.toggle("locked");
+      }
+      
+      function makeEditable(e) {
+        var target = e.target;
+        var currentValue = target.innerHTML;
+        target.innerHTML = "<input type='text' value='" + currentValue + "'>";
+        target.children[0].focus();
+        
+        target.children[0].addEventListener("blur", function() {
+          target.innerHTML = this.value;
+        });
+      }
+      
+      function addRow() {
+        var table = document.getElementById("scheduleTable");
+        var row = table.insertRow(-1);
+        var shiftCell = row.insertCell(0);
+        var nurseCell = row.insertCell(1);
+        var lockCell = row.insertCell(2);
+        shiftCell.innerHTML = "New Shift";
+        nurseCell.innerHTML = "New Nurse";
+        lockCell.innerHTML = "<button onclick='toggleLock(event)'>Lock/Unlock</button>";
+        shiftCell.ondblclick = makeEditable;
+        nurseCell.ondblclick = makeEditable;
+      }
+    </script>
+  </head>
+  <body>
+    <h1>Greenstaff Medical Canada Per Diem Bookings</h1>
+    <table id="scheduleTable">
+      <tr>
+        <th>Shift</th>
+        <th>Nurse</th>
+        <th></th>
+      </tr>
+      <tr>
+        <td ondblclick="makeEditable(event)">Morning</td>
+        <td ondblclick="makeEditable(event)">John Doe</td>
+        <td><button onclick="toggleLock(event)">Lock/Unlock</button></td>
+      </tr>
+      <tr>
+        <td ondblclick="makeEditable(event)">Afternoon</td>
+        <td ondblclick="makeEditable(event)">Jane Doe</td>
+        <td><button onclick="toggleLock(event)">Lock/Unlock</button></td>
+      </tr>
+      <tr>
+        <td ondblclick="makeEditable(event)">Night</td>
+        <td ondblclick="makeEditable(event)">John Smith</td>
+        <td><button onclick="toggleLock(event)">Lock/Unlock</button></td>
+      </tr>
+    </table>
+    <br>
+    <button onclick="addRow()">Add Row</
